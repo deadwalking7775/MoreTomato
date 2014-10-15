@@ -19,7 +19,7 @@
             android:id="@+id/button"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:background="@drawable/tomato"
+            android:background="#ffff191b"
             android:layout_marginTop="14dp" />
 
         <Chronometer
