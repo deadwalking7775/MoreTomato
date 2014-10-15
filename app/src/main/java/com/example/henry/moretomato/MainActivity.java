@@ -13,6 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import com.example.henry.moretomato.ArrangementFragment;
+import com.example.henry.moretomato.CollectionFragment;
+import com.example.henry.moretomato.CollectionFragment;
 
 
 public class MainActivity extends Activity {

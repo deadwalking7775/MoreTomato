@@ -13,21 +13,22 @@
         android:layout_gravity="center">
 
         <Button
-            android:layout_width="322dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/frag_doit_tomatobutton_name"
             android:id="@+id/button"
+            android:layout_weight="0"
+            android:background="@drawable/tomato"
+            android:layout_marginTop="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="#ffff191b"
-            android:layout_marginTop="14dp" />
+            android:layout_margin="14dp" />
 
         <Chronometer
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:id="@+id/chronometer"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1" />
+            android:layout_weight="0.23" />
 
     </LinearLayout>
 
