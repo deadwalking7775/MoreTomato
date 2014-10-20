@@ -4,26 +4,30 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DoitFragment.OnFragmentInteractionListener} interface
+ * {@link DoItFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link DoitFragment#newInstance} factory method to
+ * Use the {@link DoItFragment#newInstance} factory method to
  * create an instance of this fragment.
  *
  */
-public class DoitFragment extends Fragment {
+public class DoItFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private TextView timeCounter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -31,25 +35,16 @@ public class DoitFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DoitFragment.
-     */
     // TODO: Rename and change types and number of parameters
-    public static DoitFragment newInstance(String param1, String param2) {
-        DoitFragment fragment = new DoitFragment();
+    public static DoItFragment newInstance(String param1, String param2) {
+        DoItFragment fragment = new DoItFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
-    public DoitFragment() {
-        // Required empty public constructor
+    public DoItFragment() {
     }
 
     @Override
@@ -64,9 +59,7 @@ public class DoitFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText(R.string.hello_blank_fragment);
-        return textView;
+        return inflater.inflate(R.layout.fragment_doit, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -79,12 +72,23 @@ public class DoitFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+        timeCounter = (TextView)activity.findViewById(R.id.textView_arrangementFragment);
+        final Button tomatoStart = (Button)activity.findViewById(R.id.tomatoStartButton);
+        final TomatoCountTimer countTimer;
+        countTimer = new TomatoCountTimer(10000, 1000);
+        tomatoStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                countTimer.start();
+            }
+        });
+
+//        try {
+//            mListener = (OnFragmentInteractionListener) activity;
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
     }
 
     @Override
@@ -106,6 +110,21 @@ public class DoitFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+
+    class TomatoCountTimer extends CountDownTimer{
+        public TomatoCountTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+        @Override
+        public void onFinish(){
+            timeCounter.setText("Done");
+        }
+        @Override
+        public void onTick(long milliSec){
+            timeCounter.setText(milliSec/1000 + "秒");
+        }
     }
 
 }

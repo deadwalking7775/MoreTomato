@@ -10,4 +10,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="collection">collection</string>
     <string name="frag_doit_tomatobutton_name"></string>
+    <string name="tomatoTimeCounter_init">25:00</string>
 </resources>

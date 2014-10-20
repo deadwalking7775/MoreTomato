@@ -13,9 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.henry.moretomato.ArrangementFragment;
-import com.example.henry.moretomato.CollectionFragment;
-import com.example.henry.moretomato.CollectionFragment;
 
 
 public class MainActivity extends Activity {
@@ -88,7 +85,16 @@ public class MainActivity extends Activity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            switch (position){
+                case 0:
+                    return ArrangementFragment.newInstance("", "");
+                case 1:
+                    return DoItFragment.newInstance("", "");
+                case 2:
+                    return CollectionFragment.newInstance("", "");
+                default:
+                    return ArrangementFragment.newInstance("", "");
+            }
         }
 
         @Override

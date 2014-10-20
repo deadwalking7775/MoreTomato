@@ -10,25 +10,27 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:id="@+id/DoItLinearLayout">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/frag_doit_tomatobutton_name"
-            android:id="@+id/button"
+            android:id="@+id/tomatoStartButton"
             android:layout_weight="0"
             android:background="@drawable/tomato"
             android:layout_marginTop="0dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="14dp" />
 
-        <Chronometer
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/chronometer"
+            android:text="@string/tomatoTimeCounter_init"
+            android:id="@+id/textView_tomatoCounter"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="0.23" />
+            android:layout_weight="0" />
 
     </LinearLayout>
 
