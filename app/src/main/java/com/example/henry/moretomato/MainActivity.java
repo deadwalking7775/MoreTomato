@@ -13,6 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 
 public class MainActivity extends Activity {
@@ -37,12 +40,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -88,11 +88,11 @@ public class MainActivity extends Activity {
 
             switch (position){
                 case 0:
-                    return ArrangementFragment.newInstance("", "");
-                case 1:
-                    return DoItFragment.newInstance("", "");
-                case 2:
                     return CollectionFragment.newInstance("", "");
+                case 1:
+                    return ArrangementFragment.newInstance("", "");
+                case 2:
+                    return DoItFragment.newInstance("", "");
                 default:
                     return ArrangementFragment.newInstance("", "");
             }

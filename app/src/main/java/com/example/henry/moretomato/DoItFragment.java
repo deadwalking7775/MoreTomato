@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.support.v4.view.ViewPager;
 
 
 /**
@@ -27,8 +28,8 @@ public class DoItFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private TextView timeCounter;
-
+    private TextView textTimeCounter;
+    private Activity parent;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -59,7 +60,18 @@ public class DoItFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_doit, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_doit, container, false);
+        textTimeCounter = (TextView)fragmentView.findViewById(R.id.textView_tomatoCounter);
+//        final Button buttonTomatoStart = (Button)parent.findViewById(R.id.buttonTomatoStart);
+        final TomatoCountTimer countTimer;
+        countTimer = new TomatoCountTimer(10000, 1000);
+//        buttonTomatoStart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                countTimer.start();
+//            }
+//        });
+        return fragmentView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -72,23 +84,7 @@ public class DoItFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        timeCounter = (TextView)activity.findViewById(R.id.textView_arrangementFragment);
-        final Button tomatoStart = (Button)activity.findViewById(R.id.tomatoStartButton);
-        final TomatoCountTimer countTimer;
-        countTimer = new TomatoCountTimer(10000, 1000);
-        tomatoStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                countTimer.start();
-            }
-        });
-
-//        try {
-//            mListener = (OnFragmentInteractionListener) activity;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
+        textTimeCounter = (TextView)activity.findViewById(R.id.textView_collectionFragment);
     }
 
     @Override
@@ -119,11 +115,11 @@ public class DoItFragment extends Fragment {
         }
         @Override
         public void onFinish(){
-            timeCounter.setText("Done");
+            textTimeCounter.setText("Done");
         }
         @Override
         public void onTick(long milliSec){
-            timeCounter.setText(milliSec/1000 + "秒");
+            textTimeCounter.setText(milliSec / 1000 + "秒");
         }
     }
 

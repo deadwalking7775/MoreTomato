@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.henry.moretomato.Fragment_Doit">
+    tools:context=".MainActivity$PlaceholderFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/frag_doit_tomatobutton_name"
-            android:id="@+id/tomatoStartButton"
+            android:id="@+id/buttonTomatoStart"
             android:layout_weight="0"
             android:background="@drawable/tomato"
             android:layout_marginTop="0dp"
