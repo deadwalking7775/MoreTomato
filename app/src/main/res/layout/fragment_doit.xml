@@ -16,7 +16,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/frag_doit_tomatobutton_name"
+            android:text="@string/frag_doit_tomato_button_name"
             android:id="@+id/buttonTomatoStart"
             android:layout_weight="0"
             android:background="@drawable/tomato"
