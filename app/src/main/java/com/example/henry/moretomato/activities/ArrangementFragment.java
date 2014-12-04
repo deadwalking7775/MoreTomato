@@ -26,6 +26,14 @@ public class ArrangementFragment extends Fragment implements LoaderManager.Loade
     private ListView mTodoList;
     private OnFragmentInteractionListener mListener;
 
+    public ArrangementFragment() {
+        super();
+    }
+
+    public static ArrangementFragment newInstance() {
+        return new ArrangementFragment();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,14 +47,8 @@ public class ArrangementFragment extends Fragment implements LoaderManager.Loade
         View v = inflater.inflate(R.layout.fragment_arrangement, container, false);
         mTodoList = (ListView)v.findViewById(R.id.listView_todo_list);
         mTodoList.setAdapter(mTaskAdapter);
+        mTodoList.setOnItemClickListener(mTaskAdapter);
         return v;
-    }
-    public static ArrangementFragment newInstance() {
-        ArrangementFragment fragment = new ArrangementFragment();
-        return fragment;
-    }
-    public ArrangementFragment() {
-        super();
     }
 
     @Override
@@ -63,6 +65,7 @@ public class ArrangementFragment extends Fragment implements LoaderManager.Loade
         matrixCursor.addRow(new String[] { "0" });
         Cursor c = new MergeCursor(new Cursor[] { matrixCursor, cursor });
         mTaskAdapter.swapCursor(c);
+
     }
 
     @Override

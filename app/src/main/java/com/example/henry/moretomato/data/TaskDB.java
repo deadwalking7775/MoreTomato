@@ -17,8 +17,7 @@ public class TaskDB extends SQLiteOpenHelper {
     public final static int VERSION = 1;
     public final static String TASK_TABLE_NAME = "Task";
 
-	private final String CREATE_TASK_TABLE = "create table Memo("
-            + "`_id` integer primary key autoincrement,"
+	private final String CREATE_TASK_TABLE = "create table Memo(`_id` integer primary key autoincrement,"
 			+ "`content` text,"
             + "'parent_id' text,"
             + "'level' text,"

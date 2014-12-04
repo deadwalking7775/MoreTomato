@@ -10,4 +10,5 @@
     <string name="collection">collection</string>
     <string name="frag_doit_tomato_button_name"></string>
     <string name="tomatoTimeCounter_init">25:00</string>
+    <string name="editText_new_task_default">new task</string>
 </resources>
