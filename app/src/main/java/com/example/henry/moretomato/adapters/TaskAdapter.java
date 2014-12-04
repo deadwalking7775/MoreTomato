@@ -17,8 +17,13 @@ import com.example.henry.moretomato.R;
 
 public class TaskAdapter extends CursorAdapter implements AdapterView.OnItemClickListener{
 
+    private Context mContext;
+    private Cursor mCursor;
+
     public TaskAdapter(Context context, Cursor cursor, int flag){
         super(context, cursor, flag);
+        mContext = context;
+        mCursor = cursor;
     }
 
     @Override
@@ -38,5 +43,15 @@ public class TaskAdapter extends CursorAdapter implements AdapterView.OnItemClic
         return  layoutInflater.inflate(R.layout.item_to_dolist, parent, false);
     }
 
-
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View v;
+        if (position == 0){
+            v = newView(mContext, mCursor, parent);
+        }
+        else{
+            v = newView(mContext, mCursor, parent);
+        }
+        return v;
+    }
 }
