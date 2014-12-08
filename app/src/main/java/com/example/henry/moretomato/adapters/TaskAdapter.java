@@ -17,7 +17,7 @@ import com.example.henry.moretomato.R;
  */
 
 public class TaskAdapter extends CursorAdapter implements AdapterView.OnItemClickListener,
-        View.OnClickListener{
+        AdapterView.OnItemLongClickListener, View.OnClickListener{
 
     public TaskAdapter(Context context, Cursor cursor, int flag){
         super(context, cursor, flag);
@@ -26,6 +26,12 @@ public class TaskAdapter extends CursorAdapter implements AdapterView.OnItemClic
     @Override
     public void onItemClick(android.widget.AdapterView<?> adapterView, android.view.View view, int i, long l){
         Toast.makeText(mContext,"You've got an event from " + i,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onItemLongClick(android.widget.AdapterView<?> adapterView, android.view.View view, int i, long l){
+        Toast.makeText(mContext,"edit_text " + i,Toast.LENGTH_SHORT).show();
+        return true;
     }
 
     @Override
