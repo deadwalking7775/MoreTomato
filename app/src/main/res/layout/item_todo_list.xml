@@ -2,33 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView_item_todo_tomato_num"
-        android:layout_gravity="center_vertical" />
+    android:orientation="horizontal"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView_item_todo_tomato"
+        android:id="@+id/imageView_item_todo_done"
+        android:layout_weight="0"
+        android:src="@drawable/accept_invitation_2"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/tomato"/>
+        android:clickable="false" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView_item_todo_title"
-        android:layout_gravity="center_vertical" />
+        android:text="TaskContent"
+        android:id="@+id/textView_item_todo_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:layout_marginLeft="0dp"
+        android:textIsSelectable="false"
+        android:textSize="24dp" />
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView_item_todo_task_num"
-        android:layout_gravity="center_vertical" />
+        android:text="num"
+        android:id="@+id/imageView_item_todo_delete"
+        android:layout_weight="0"
+        android:gravity="center"
+        android:src="@drawable/delete_message"
+        android:layout_gravity="center_vertical"
+        android:clickable="false" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="num"
+        android:id="@+id/imageView_item_todo_star"
+        android:layout_weight="0"
+        android:gravity="center"
+        android:cropToPadding="false"
+        android:src="@drawable/accep_invitation"
+        android:layout_gravity="center_vertical"
+        android:clickable="false" />
 </LinearLayout>

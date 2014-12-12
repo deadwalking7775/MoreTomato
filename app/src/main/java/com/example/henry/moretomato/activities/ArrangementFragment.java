@@ -42,8 +42,8 @@ public class ArrangementFragment extends Fragment implements LoaderManager.Loade
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_arrangement, container, false);
         mTodoList = (ListView)v.findViewById(R.id.listView_todo_list);
         mTodoList.setAdapter(mTaskAdapter);

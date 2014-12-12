@@ -16,7 +16,7 @@ public class TaskProvider extends ContentProvider {
 	public static final int TASK = 1;
 	public static final int TITLE = 2;
 
-	private static final String AUTHORITY = "com.example.henry.moretomato.data.MemoContentProvider";
+	private static final String AUTHORITY = "com.example.henry.moretomato.data.TaskContentProvider";
 	public static final Uri TASK_URI = Uri.parse("content://" + AUTHORITY + "/"
             + TaskDB.TASK_TABLE_NAME);
     private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -38,19 +38,6 @@ public class TaskProvider extends ContentProvider {
 			String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		queryBuilder.setTables(TaskDB.TASK_TABLE_NAME);
-		int uriType = sURIMatcher.match(uri);
-		switch (uriType) {
-		case ALL_MEMOS_WITH_DELETED:
-			break;
-		case TASK:
-			break;
-		case TITLE:
-			queryBuilder.appendWhere(TaskDB.ID + "=" + uri.getLastPathSegment());
-			break;
-
-		default:
-			throw new IllegalArgumentException("Unknown URI");
-		}
 		Cursor cursor = queryBuilder.query(mTaskDB.getReadableDatabase(),
                 projection, selection, selectionArgs, null, null, sortOrder);
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -63,8 +50,6 @@ public class TaskProvider extends ContentProvider {
 		SQLiteDatabase database = mTaskDB.getWritableDatabase();
 		int rowAffected = 0;
 		ContentValues values = new ContentValues();
-//		values.put(TaskDB.STATUS, Task.STATUS_DELETE);
-//		values.put(TaskDB.SYNCSTATUS, Task.NEED_SYNC_DELETE);
 		switch (uriType) {
 		case TASK:
 			rowAffected = database.delete(TaskDB.TASK_TABLE_NAME, selection,
@@ -72,14 +57,8 @@ public class TaskProvider extends ContentProvider {
 			break;
 		case TITLE:
 			String id = uri.getLastPathSegment();
-			if (TextUtils.isEmpty(selection)) {
-				rowAffected = database.update(TaskDB.TASK_TABLE_NAME, values,
-						TaskDB.ID + "=" + id, null);
-			} else {
-				rowAffected = database.update(TaskDB.TASK_TABLE_NAME, values,
-						selection + " and " + TaskDB.ID + "=" + id,
-						selectionArgs);
-			}
+            rowAffected = database.delete(TaskDB.TASK_TABLE_NAME,
+                    TaskDB.ID + " = " + id, selectionArgs);
 		default:
 			break;
 		}
@@ -97,10 +76,6 @@ public class TaskProvider extends ContentProvider {
 		if (values.containsKey(TaskDB.ID)) {
 			values.remove(TaskDB.ID);
 		}
-//		Task task = Task.build(values);
-//		if (task.getContent().trim().length() == 0) {
-//			return null;
-//		}
 		int uriType = sURIMatcher.match(uri);
 		SQLiteDatabase database = mTaskDB.getWritableDatabase();
 		Uri itemUri = null;
@@ -110,14 +85,11 @@ public class TaskProvider extends ContentProvider {
 			if (newID > 0) {
 				itemUri = ContentUris.withAppendedId(uri, newID);
 				getContext().getContentResolver().notifyChange(itemUri, null);
-//				task.setId((int) newID);
 			}
 		default:
 			break;
 		}
-
 		return itemUri;
-
 	}
 
 	@Override

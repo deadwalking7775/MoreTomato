@@ -17,14 +17,13 @@ public class TaskDB extends SQLiteOpenHelper {
     public final static int VERSION = 1;
     public final static String TASK_TABLE_NAME = "Task";
 
-	private final String CREATE_TASK_TABLE = "create table Memo(`_id` integer primary key autoincrement,"
+	private final String CREATE_TASK_TABLE = "create table Task(`_id` integer primary key autoincrement,"
 			+ "`content` text,"
-            + "'parent_id' text,"
-            + "'level' text,"
+            + "`parent_id` text,"
+            + "`level` int,"
 			+ "`createdtime` text,"
 			+ "`updatedtime` text,"
-			+ "`endtime` text,"
-            + ");";
+			+ "`endtime` text" + ");";
 
 	public TaskDB(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
