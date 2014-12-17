@@ -100,10 +100,12 @@ public class TaskAdapter extends CursorAdapter implements AdapterView.OnItemClic
                     values.put("urgency", 1);
                 }
                 mContext.getContentResolver().update(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mRowCnt), values, null, null);
+                break;
             case R.id.imageView_item_todo_done:
                 values.put("_id", holder.mRowCnt);
                 values.put("completed", 1);
                 mContext.getContentResolver().update(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mRowCnt), values, null, null);
+                break;
             default:
                 break;
         }
