@@ -21,6 +21,8 @@ public class TaskDB extends SQLiteOpenHelper {
 			+ "`content` text,"
             + "`parent_id` text,"
             + "`level` int,"
+            + "`completed` int,"
+            + "`urgency` int,"
 			+ "`createdtime` text,"
 			+ "`updatedtime` text,"
 			+ "`endtime` text" + ");";

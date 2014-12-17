@@ -5,8 +5,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Handler;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -58,17 +61,21 @@ public class TaskAdapter extends CursorAdapter implements AdapterView.OnItemClic
 
     private static class RowCountHolder{
         public int mRowCnt;
+        public int mUrgency;
+        public int mCompleted;
     }
 
     @Override
     public boolean onEditorAction(android.widget.TextView textView, int actionId, android.view.KeyEvent keyEvent){
         if (actionId == EditorInfo.IME_ACTION_DONE){
             ContentValues values = new ContentValues();
-            values.put("_id", mCursor.getColumnCount());
+            //values.put("_id", mCursor.getColumnCount());
             values.put("content", textView.getText().toString());
             values.put("parent_id", "");
             values.put("createdtime", "");
             values.put("updatedtime", "");
+            values.put("completed", 0);
+            values.put("urgency", 0);
             values.put("endtime", "");
             values.put("level", 0);
             Uri uri = mContext.getContentResolver().insert(TaskProvider.TASK_URI, values);
@@ -78,11 +85,25 @@ public class TaskAdapter extends CursorAdapter implements AdapterView.OnItemClic
 
     @Override
     public void onClick(android.view.View view){
+        RowCountHolder holder = (RowCountHolder)view.getTag();
+        ContentValues values = new ContentValues();
         switch (view.getId()){
             case R.id.imageView_item_todo_delete:
-                RowCountHolder holder = (RowCountHolder)view.getTag();
                 mContext.getContentResolver().delete(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mRowCnt), null, null);
                 break;
+            case R.id.imageView_item_todo_star:
+                values.put("_id", holder.mRowCnt);
+                if (holder.mUrgency == 1){
+                    values.put("urgency", 0);
+                }
+                else if (holder.mUrgency == 0) {
+                    values.put("urgency", 1);
+                }
+                mContext.getContentResolver().update(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mRowCnt), values, null, null);
+            case R.id.imageView_item_todo_done:
+                values.put("_id", holder.mRowCnt);
+                values.put("completed", 1);
+                mContext.getContentResolver().update(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mRowCnt), values, null, null);
             default:
                 break;
         }
@@ -123,12 +144,17 @@ public class TaskAdapter extends CursorAdapter implements AdapterView.OnItemClic
 
             RowCountHolder holder = new RowCountHolder();
             holder.mRowCnt = cursor.getInt(cursor.getColumnIndex("_id"));
+            holder.mUrgency = cursor.getInt(cursor.getColumnIndex("urgency"));
+            holder.mCompleted = cursor.getInt(cursor.getColumnIndex("completed"));
             v.findViewById(R.id.imageView_item_todo_delete).setTag(holder);
             v.findViewById(R.id.imageView_item_todo_delete).setOnClickListener(this);
             v.findViewById(R.id.imageView_item_todo_done).setTag(holder);
             v.findViewById(R.id.imageView_item_todo_done).setOnClickListener(this);
             v.findViewById(R.id.imageView_item_todo_star).setTag(holder);
             v.findViewById(R.id.imageView_item_todo_star).setOnClickListener(this);
+            if (cursor.getInt(cursor.getColumnIndex("urgency")) == 1) {
+                v.setBackgroundColor(mContext.getResources().getColor(R.color.stared_item));
+            }
             return  v;
         }
     }

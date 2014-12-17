@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.io.File;
+
 public class TaskProvider extends ContentProvider {
 
 	public static final int ALL_MEMOS_WITH_DELETED = 0;
