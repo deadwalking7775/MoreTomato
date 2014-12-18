@@ -10,7 +10,7 @@ import java.sql.Time;
 
 public class TaskDB extends SQLiteOpenHelper {
     public final static String NAME = "MoreTomato";
-    public final static int VERSION = 1;
+    public final static int VERSION = 1;//12/18/14
     public final static String TASK_TABLE_NAME = "Task";
 
 	private final String CREATE_TASK_TABLE = "create table Task(`_id` integer primary key autoincrement,"
@@ -21,6 +21,7 @@ public class TaskDB extends SQLiteOpenHelper {
             + "`created_time` int,"
             + "`done_time` int,"
             + "`used_time` int" + ");";
+
 
 	public TaskDB(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
