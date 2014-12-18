@@ -7,42 +7,31 @@ import java.io.Serializable;
 
 public class Task implements Serializable {
 
-    public final static int NOCHILD = 0;
-    public final static int ISCHILDEXIST = 0;
-    private String mContent;
-    private String mTitle;
+    public final static int UNDONE = 0;
+    public final static int DONE = 1;
 
-    private long mCreatedTime;
-    private long mUpdatedTime;
-    private long mEndTime;
+    public final static String ID = "_id";
+    public final static String CONTENT = "content";
+    public final static String TAG = "tag";
+    public final static String IS_DONE = "is_done";
+    public final static String URGENCY = "urgency";
+    public final static String CREATED_TIME = "created_time";
+    public final static String DONE_TIME = "completed_time";
+    public final static String USED_TIME = "used_time";
 
-    private int _id;
-    private int mLevel;
-    private int mParentId;
-    private boolean mIsChildExsit;
-
-    public Task() {
-        mCreatedTime = System.currentTimeMillis();
-        mUpdatedTime = System.currentTimeMillis();
+    public ContentValues buildNewTask(String content, String tag){
+        ContentValues values = new ContentValues();
+        values.put(CONTENT, content);
+        values.put(TAG, tag);
+        values.put(URGENCY, 0);
+        values.put(IS_DONE, UNDONE);
+        values.put(CREATED_TIME, System.currentTimeMillis());
+        values.put(DONE_TIME, 0);
+        values.put(USED_TIME, 0);
+        return values;
     }
 
     public Task(Cursor cursor) {
-    }
-
-    public void SetContent(String content){
-        mContent = content;
-    }
-
-    public String GetContent(){
-        return mContent;
-    }
-
-    public void SetTitle(String title){
-        mTitle = title;
-    }
-
-    public String GetTitle(){
-        return mTitle;
     }
 }
 

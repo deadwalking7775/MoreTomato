@@ -18,6 +18,7 @@ import android.widget.ListView;
 
 import com.example.henry.moretomato.adapters.TaskAdapter;
 import com.example.henry.moretomato.R;
+import com.example.henry.moretomato.data.Task;
 import com.example.henry.moretomato.data.TaskDB;
 import com.example.henry.moretomato.data.TaskProvider;
 
@@ -54,8 +55,7 @@ public class ArrangementFragment extends Fragment implements LoaderManager.Loade
     @Override
     public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
         CursorLoader cursorLoader = new CursorLoader(getActivity(),
-                TaskProvider.TASK_URI, null, null, null, TaskDB.UPDATEDTIME
-                + " desc");
+                TaskProvider.TASK_URI, null, null, null, Task.URGENCY + " desc");
         return cursorLoader;
     }
 

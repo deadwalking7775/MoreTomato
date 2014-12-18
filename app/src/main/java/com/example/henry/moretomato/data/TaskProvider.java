@@ -60,7 +60,7 @@ public class TaskProvider extends ContentProvider {
 		case TITLE:
 			String id = uri.getLastPathSegment();
             rowAffected = database.delete(TaskDB.TASK_TABLE_NAME,
-                    TaskDB.ID + " = " + id, selectionArgs);
+                    Task.ID + " = " + id, selectionArgs);
 		default:
 			break;
 		}
@@ -75,8 +75,8 @@ public class TaskProvider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		if (values.containsKey(TaskDB.ID)) {
-			values.remove(TaskDB.ID);
+		if (values.containsKey(Task.ID)) {
+			values.remove(Task.ID);
 		}
 		int uriType = sURIMatcher.match(uri);
 		SQLiteDatabase database = mTaskDB.getWritableDatabase();
@@ -110,7 +110,7 @@ public class TaskProvider extends ContentProvider {
 			}
 			updateCount = mTaskDB.getWritableDatabase().update(
 					TaskDB.TASK_TABLE_NAME, values,
-					TaskDB.ID + "=" + uri.getLastPathSegment() + where,
+					Task.ID + "=" + uri.getLastPathSegment() + where,
 					selectionArgs);
 			break;
 

@@ -21,6 +21,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.View;
 
 import com.example.henry.moretomato.R;
+import com.example.henry.moretomato.data.Task;
 import com.example.henry.moretomato.data.TaskDB;
 import com.example.henry.moretomato.data.TaskProvider;
 
@@ -68,33 +69,25 @@ public class TaskAdapter extends CursorAdapter implements AdapterView.OnItemClic
     @Override
     public boolean onEditorAction(android.widget.TextView textView, int actionId, android.view.KeyEvent keyEvent){
         if (actionId == EditorInfo.IME_ACTION_DONE){
-            ContentValues values = new ContentValues();
-            //values.put("_id", mCursor.getColumnCount());
-            values.put("content", textView.getText().toString());
-            values.put("parent_id", "");
-            values.put("createdtime", "");
-            values.put("updatedtime", "");
-            values.put("completed", 0);
-            values.put("urgency", 0);
-            values.put("endtime", "");
-            values.put("level", 0);
+            Task task = new Task(mCursor);
+            ContentValues values = task.buildNewTask(textView.getText().toString(), "");
             Uri uri = mContext.getContentResolver().insert(TaskProvider.TASK_URI, values);
         }
-        return true;
-    }
+                    return true;
+                }
 
-    @Override
-    public void onClick(android.view.View view){
-        RowCountHolder holder = (RowCountHolder)view.getTag();
-        ContentValues values = new ContentValues();
-        switch (view.getId()){
-            case R.id.imageView_item_todo_delete:
-                mContext.getContentResolver().delete(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mRowCnt), null, null);
-                break;
-            case R.id.imageView_item_todo_star:
-                values.put("_id", holder.mRowCnt);
-                if (holder.mUrgency == 1){
-                    values.put("urgency", 0);
+                @Override
+                public void onClick(android.view.View view){
+                RowCountHolder holder = (RowCountHolder)view.getTag();
+                ContentValues values = new ContentValues();
+                switch (view.getId()){
+                    case R.id.imageView_item_todo_delete:
+                        mContext.getContentResolver().delete(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mRowCnt), null, null);
+                        break;
+                    case R.id.imageView_item_todo_star:
+                        values.put("_id", holder.mRowCnt);
+                        if (holder.mUrgency == 1){
+                            values.put("urgency", 0);
                 }
                 else if (holder.mUrgency == 0) {
                     values.put("urgency", 1);
