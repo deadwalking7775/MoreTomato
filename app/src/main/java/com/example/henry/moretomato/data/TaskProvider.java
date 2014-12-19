@@ -43,6 +43,22 @@ public class TaskProvider extends ContentProvider {
 		Cursor cursor = queryBuilder.query(mTaskDB.getReadableDatabase(),
                 projection, selection, selectionArgs, null, null, sortOrder);
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+        if (cursor.getColumnIndex(Task.TAG) < 0){
+               mTaskDB.getReadableDatabase().execSQL("ALTER TABLE Task ADD tag text");
+        }
+        if (cursor.getColumnIndex(Task.IS_DONE) < 0){
+            mTaskDB.getReadableDatabase().execSQL("ALTER TABLE Task ADD is_done int");
+        }
+        if (cursor.getColumnIndex(Task.CREATED_TIME) < 0){
+            mTaskDB.getReadableDatabase().execSQL("ALTER TABLE Task ADD created_time int");
+        }
+        if (cursor.getColumnIndex(Task.DONE_TIME) < 0){
+            mTaskDB.getReadableDatabase().execSQL("ALTER TABLE Task ADD done_time int");
+        }
+        if (cursor.getColumnIndex(Task.USED_TIME) < 0){
+            mTaskDB.getReadableDatabase().execSQL("ALTER TABLE Task ADD used_time int");
+        }
 		return cursor;
 	}
 
@@ -56,6 +72,7 @@ public class TaskProvider extends ContentProvider {
 		case TASK:
 			rowAffected = database.delete(TaskDB.TASK_TABLE_NAME, selection,
 					selectionArgs);
+            database.close();
 			break;
 		case TITLE:
 			String id = uri.getLastPathSegment();

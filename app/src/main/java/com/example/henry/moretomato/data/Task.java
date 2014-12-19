@@ -16,7 +16,7 @@ public class Task implements Serializable {
     public final static String IS_DONE = "is_done";
     public final static String URGENCY = "urgency";
     public final static String CREATED_TIME = "created_time";
-    public final static String DONE_TIME = "completed_time";
+    public final static String DONE_TIME = "done_time";
     public final static String USED_TIME = "used_time";
 
     public ContentValues buildNewTask(String content, String tag){

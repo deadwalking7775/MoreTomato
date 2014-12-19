@@ -61,6 +61,7 @@ public class ArrangementFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
+
         MatrixCursor matrixCursor = new MatrixCursor(new String[] { "_id" });
         matrixCursor.addRow(new String[] { "0" });
         Cursor c = new MergeCursor(new Cursor[] { matrixCursor, cursor });
