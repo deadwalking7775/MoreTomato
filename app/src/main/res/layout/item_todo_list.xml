@@ -15,16 +15,18 @@
         android:layout_gravity="center_vertical"
         android:clickable="false" />
 
-    <TextView
+    <EditText
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="TaskContent"
-        android:id="@+id/textView_item_todo_content"
+        android:id="@+id/text_item_todo_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:layout_marginLeft="0dp"
         android:textIsSelectable="false"
-        android:textSize="24dp" />
+        android:textSize="24dp"
+        android:clickable="false"
+        android:inputType="text"
+        android:background="@null"/>
 
     <ImageView
         android:layout_width="wrap_content"

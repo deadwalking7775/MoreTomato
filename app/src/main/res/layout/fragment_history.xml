@@ -1,0 +1,14 @@
+<FrameLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listView_history_list"
+        tools:listitem="@layout/item_todo_list"
+        android:padding="0dp"
+        android:paddingBottom="0dp"
+        android:clickable="true" />
+</FrameLayout>

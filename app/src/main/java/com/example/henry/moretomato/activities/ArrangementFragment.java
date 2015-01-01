@@ -49,24 +49,23 @@ public class ArrangementFragment extends Fragment implements LoaderManager.Loade
         mTodoList = (ListView)v.findViewById(R.id.listView_todo_list);
         mTodoList.setAdapter(mTaskAdapter);
         mTodoList.setOnItemClickListener(mTaskAdapter);
+        mTodoList.setOnItemLongClickListener(mTaskAdapter);
         return v;
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
         CursorLoader cursorLoader = new CursorLoader(getActivity(),
-                TaskProvider.TASK_URI, null, null, null, Task.URGENCY + " desc");
+                TaskProvider.TASK_URI, null, "is_done=0", null, Task.URGENCY + " desc");
         return cursorLoader;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
-
         MatrixCursor matrixCursor = new MatrixCursor(new String[] { "_id" });
         matrixCursor.addRow(new String[] { "0" });
         Cursor c = new MergeCursor(new Cursor[] { matrixCursor, cursor });
         mTaskAdapter.swapCursor(c);
-
     }
 
     @Override

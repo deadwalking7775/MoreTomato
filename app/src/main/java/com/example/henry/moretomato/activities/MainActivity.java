@@ -87,7 +87,7 @@ public class MainActivity extends Activity {
 
             switch (position){
                 case 0:
-                    return CollectionFragment.newInstance("", "");
+                    return HistoryFragment.newInstance("", "");
                 case 1:
                     return ArrangementFragment.newInstance();
                 case 2:
@@ -155,7 +155,7 @@ public class MainActivity extends Activity {
                     rootView = inflater.inflate(R.layout.fragment_arrangement, container, false);
                     break;
                 case 3:
-                    rootView = inflater.inflate(R.layout.fragment_collection, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_history, container, false);
                     break;
                 default:
                     rootView = inflater.inflate(R.layout.fragment_arrangement, container, false);

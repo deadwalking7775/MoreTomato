@@ -5,11 +5,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Handler;
-import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -22,9 +19,7 @@ import android.view.View;
 
 import com.example.henry.moretomato.R;
 import com.example.henry.moretomato.data.Task;
-import com.example.henry.moretomato.data.TaskDB;
 import com.example.henry.moretomato.data.TaskProvider;
-
 /**
  * Created by Henry on 2014/10/27.
  */
@@ -34,46 +29,58 @@ public class TaskAdapter extends CursorAdapter implements AdapterView.OnItemClic
 
     public TaskAdapter(Context context, Cursor cursor, int flag) {
         super(context, cursor, flag);
-        mContext.getContentResolver().registerContentObserver(
-                TaskProvider.TASK_URI, false,
-                new UpdateObserver(mUpdateHandler));
+//        mContext.getContentResolver().registerContentObserver(
+//                TaskProvider.TASK_URI, false,
+//                new UpdateObserver(mUpdateHandler));
     }
 
-    private Handler mUpdateHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            notifyDataSetChanged();
-        }
-
-        ;
-    };
-
-    class UpdateObserver extends ContentObserver {
-        private Handler mHandler;
-
-        public UpdateObserver(Handler handler) {
-            super(handler);
-            mHandler = handler;
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            super.onChange(selfChange);
-            mHandler.sendEmptyMessage(0);
-        }
-    }
+//    private Handler mUpdateHandler = new Handler() {
+//        public void handleMessage(android.os.Message msg) {
+//            notifyDataSetChanged();
+//        }
+//
+//        ;
+//    };
+//
+//    class UpdateObserver extends ContentObserver {
+//        private Handler mHandler;
+//
+//        public UpdateObserver(Handler handler) {
+//            super(handler);
+//            mHandler = handler;
+//        }
+//
+//        @Override
+//        public void onChange(boolean selfChange) {
+//            super.onChange(selfChange);
+//            mHandler.sendEmptyMessage(0);
+//        }
+//    }
 
     private static class RowCountHolder {
-        public int mRowCnt;
+        public int mTaskID;
         public int mUrgency;
-        public int mCompleted;
+        public int mIsDone;
     }
 
     @Override
     public boolean onEditorAction(android.widget.TextView textView, int actionId, android.view.KeyEvent keyEvent) {
-        if (actionId == EditorInfo.IME_ACTION_DONE) {
-            Task task = new Task(mCursor);
-            ContentValues values = task.buildNewTask(textView.getText().toString(), "");
-            Uri uri = mContext.getContentResolver().insert(TaskProvider.TASK_URI, values);
+        if (textView.getId() == R.id.editText_new_task) {
+            if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+                Task task = new Task(mCursor);
+                ContentValues values = task.buildNewTask(textView.getText().toString(), "");
+                values.put(Task.CREATED_TIME, System.currentTimeMillis());
+                Uri uri = mContext.getContentResolver().insert(TaskProvider.TASK_URI, values);
+            }
+        }
+        else if (textView.getId() == R.id.text_item_todo_content) {
+            if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+                Task task = new Task(mCursor);
+                ContentValues values = task.buildNewTask(textView.getText().toString(), "");
+                RowCountHolder holder = (RowCountHolder)textView.getTag();
+                values.put(Task.ID, holder.mTaskID);
+                int res = mContext.getContentResolver().update(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mTaskID), values, null, null);
+            }
         }
         return true;
     }
@@ -84,21 +91,22 @@ public class TaskAdapter extends CursorAdapter implements AdapterView.OnItemClic
         ContentValues values = new ContentValues();
         switch (view.getId()) {
             case R.id.imageView_item_todo_delete:
-                mContext.getContentResolver().delete(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mRowCnt), null, null);
+                mContext.getContentResolver().delete(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mTaskID), null, null);
                 break;
             case R.id.imageView_item_todo_star:
-                values.put(Task.ID, holder.mRowCnt);
+                values.put(Task.ID, holder.mTaskID);
                 if (holder.mUrgency == 1) {
                     values.put(Task.URGENCY, 0);
                 } else if (holder.mUrgency == 0) {
                     values.put(Task.URGENCY, 1);
                 }
-                mContext.getContentResolver().update(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mRowCnt), values, null, null);
+                mContext.getContentResolver().update(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mTaskID), values, null, null);
                 break;
             case R.id.imageView_item_todo_done:
-                values.put(Task.ID, holder.mRowCnt);
+                values.put(Task.DONE_TIME, System.currentTimeMillis());
+                values.put(Task.ID, holder.mTaskID);
                 values.put(Task.IS_DONE, 1);
-                mContext.getContentResolver().update(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mRowCnt), values, null, null);
+                mContext.getContentResolver().update(ContentUris.withAppendedId(TaskProvider.TASK_URI, holder.mTaskID), values, null, null);
                 break;
             default:
                 break;
@@ -133,14 +141,17 @@ public class TaskAdapter extends CursorAdapter implements AdapterView.OnItemClic
             newTaskText.setOnEditorActionListener(this);
             return v;
         } else {
-            v = layoutInflater.inflate(R.layout.item_todo_list, parent, false);
-            TextView text_todo_content = (TextView) v.findViewById(R.id.textView_item_todo_content);
-            text_todo_content.setText(cursor.getString(cursor.getColumnIndex("content")));
-
             RowCountHolder holder = new RowCountHolder();
-            holder.mRowCnt = cursor.getInt(cursor.getColumnIndex(Task.ID));
+            holder.mTaskID = cursor.getInt(cursor.getColumnIndex(Task.ID));
             holder.mUrgency = cursor.getInt(cursor.getColumnIndex(Task.URGENCY));
-            holder.mCompleted = cursor.getInt(cursor.getColumnIndex(Task.IS_DONE));
+            holder.mIsDone = cursor.getInt(cursor.getColumnIndex(Task.IS_DONE));
+
+            v = layoutInflater.inflate(R.layout.item_todo_list, parent, false);
+            EditText text_todo_content = (EditText) v.findViewById(R.id.text_item_todo_content);
+            text_todo_content.setOnEditorActionListener(this);
+            text_todo_content.setText(cursor.getString(cursor.getColumnIndex(Task.CONTENT)));
+            text_todo_content.setTag(holder);
+
             v.findViewById(R.id.imageView_item_todo_delete).setTag(holder);
             v.findViewById(R.id.imageView_item_todo_delete).setOnClickListener(this);
             v.findViewById(R.id.imageView_item_todo_done).setTag(holder);
